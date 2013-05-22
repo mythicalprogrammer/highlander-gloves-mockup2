@@ -1,0 +1,63 @@
+<script>
+$(document).ready(function()
+{
+	slide("#sliding-navigation", 25, 15, 150, .8);
+	$("#navigation-toggle").click(function(){
+	//	alert($(this).attr('data-slide'));
+		if ($(this).attr('data-slide') === 'false') {
+			$("#navigation-toggle, #navigation-block")
+				.animate({left: -130 });
+			$("#navigation-toggle").attr('data-slide','true');
+			$("#navigation-toggle .arrow").addClass('right');
+		} else {
+			$("#navigation-toggle, #navigation-block")
+				.animate({left: 0 });
+			$("#navigation-toggle").attr('data-slide','false');
+			$("#navigation-toggle .arrow").removeClass('right');
+		}
+	});
+});
+
+function slide(navigation_id, pad_out, pad_in, time, multiplier)
+{
+	// creates the target paths
+	var list_elements = navigation_id + " li.sliding-element";
+	var link_elements = list_elements + " a";
+				
+	// initiates the timer used for the sliding animation
+	var timer = 0;
+		
+	// creates the slide animation for all list elements 
+	$(list_elements).each(function(i) {
+		// margin left = - ([width of element] + [total vertical padding of element])
+		$(this).css("margin-left","-180px");
+		// updates timer
+		timer = (timer*multiplier + time);
+		$(this).animate({ marginLeft: "0" }, timer);
+		$(this).animate({ marginLeft: "15px" }, timer);
+		$(this).animate({ marginLeft: "0" }, timer);
+	});
+
+	// creates the hover-slide effect for all link elements 		
+	$(link_elements).each(function(i) {
+		$(this).hover(
+			function(){
+				$(this).animate({ paddingLeft: pad_out }, 150);
+			},		
+			function(){
+				$(this).animate({ paddingLeft: pad_in }, 150);
+			});
+	});
+}
+</script>
+	<div id="navigation-block">  
+			<img src="../images/highlander_bear_head.png" style="width:100px;display:block;margin-left:auto;margin-right:auto;padding-top:20px;" />
+			<h4 style="text-align:center">Highlander Gloves</h4>  
+		<ul id="sliding-navigation">  
+		    <li class="sliding-element"><a href="#">Link 1</a></li>  
+		    <li class="sliding-element"><a href="#">Link 2</a></li>  
+		    <li class="sliding-element"><a href="#">Link 3</a></li>  
+		    <li class="sliding-element"><a href="#">Link 4</a></li>  
+		    <li class="sliding-element"><a href="#">Link 5</a></li>  
+		</ul>  
+	</div> 
